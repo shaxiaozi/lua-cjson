@@ -17,9 +17,9 @@ PREFIX =            /usr/local
 #CFLAGS =            -g -Wall -pedantic -fno-inline
 CFLAGS =            -O3 -Wall -pedantic -DNDEBUG
 CJSON_CFLAGS =      -fpic
-CJSON_LDFLAGS =     -shared
-LUA_INCLUDE_DIR =   $(PREFIX)/include
-LUA_CMODULE_DIR =   $(PREFIX)/lib/lua/$(LUA_VERSION)
+LUA_INCLUDE_DIR =   ../lua
+LUA_CMODULE_DIR =   ../lua 
+CJSON_LDFLAGS =     -shared -llua -L$(LUA_INCLUDE_DIR)
 LUA_MODULE_DIR =    $(PREFIX)/share/lua/$(LUA_VERSION)
 LUA_BIN_DIR =       $(PREFIX)/bin
 
@@ -100,9 +100,10 @@ $(TARGET): $(OBJS)
 	$(CC) $(LDFLAGS) $(CJSON_LDFLAGS) -o $@ $(OBJS)
 
 install: $(TARGET)
-	mkdir -p $(DESTDIR)/$(LUA_CMODULE_DIR)
-	cp $(TARGET) $(DESTDIR)/$(LUA_CMODULE_DIR)
-	chmod $(EXECPERM) $(DESTDIR)/$(LUA_CMODULE_DIR)/$(TARGET)
+	# mkdir -p $(DESTDIR)/$(LUA_CMODULE_DIR)
+	# cp $(TARGET) $(DESTDIR)/$(LUA_CMODULE_DIR)
+	# chmod $(EXECPERM) $(DESTDIR)/$(LUA_CMODULE_DIR)/$(TARGET)
+	cp $(TARGET) ../../luaclib
 
 install-extra:
 	mkdir -p $(DESTDIR)/$(LUA_MODULE_DIR)/cjson/tests \
